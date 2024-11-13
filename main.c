@@ -20,7 +20,7 @@ static void configure_simulator(int argc, char **argv);
 
 static const char *getenv_default(const char *name, const char *dflt)
 {
-    return getenv(name) ? : dflt;
+    return getenv(name) ?: dflt;
 }
 
 #if LV_USE_EVDEV
@@ -32,7 +32,8 @@ static void lv_linux_init_input_pointer(lv_display_t *disp)
      */
     const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
 
-    if (input_device == NULL) {
+    if (input_device == NULL)
+    {
         fprintf(stderr, "please set the LV_LINUX_EVDEV_POINTER_DEVICE environment variable\n");
         exit(1);
     }
@@ -42,7 +43,7 @@ static void lv_linux_init_input_pointer(lv_display_t *disp)
 
     /* Set the cursor icon */
     LV_IMAGE_DECLARE(mouse_cursor_icon);
-    lv_obj_t * cursor_obj = lv_image_create(lv_screen_active());
+    lv_obj_t *cursor_obj = lv_image_create(lv_screen_active());
     lv_image_set_src(cursor_obj, &mouse_cursor_icon);
     lv_indev_set_cursor(touch, cursor_obj);
 }
@@ -52,7 +53,7 @@ static void lv_linux_init_input_pointer(lv_display_t *disp)
 static void lv_linux_disp_init(void)
 {
     const char *device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
-    lv_display_t * disp = lv_linux_fbdev_create();
+    lv_display_t *disp = lv_linux_fbdev_create();
 
 #if LV_USE_EVDEV
     lv_linux_init_input_pointer(disp);
@@ -64,7 +65,7 @@ static void lv_linux_disp_init(void)
 static void lv_linux_disp_init(void)
 {
     const char *device = getenv_default("LV_LINUX_DRM_CARD", "/dev/dri/card0");
-    lv_display_t * disp = lv_linux_drm_create();
+    lv_display_t *disp = lv_linux_drm_create();
 
 #if LV_USE_EVDEV
     lv_linux_init_input_pointer(disp);
@@ -77,10 +78,9 @@ static void lv_linux_disp_init(void)
 {
 
     lv_sdl_window_create(window_width, window_height);
-
 }
 #elif LV_USE_WAYLAND
-    /* see backend/wayland.c */
+/* see backend/wayland.c */
 #else
 #error Unsupported configuration
 #endif
@@ -91,7 +91,8 @@ void lv_linux_run_loop(void)
     uint32_t idle_time;
 
     /*Handle LVGL tasks*/
-    while(1) {
+    while (1)
+    {
 
         idle_time = lv_timer_handler(); /*Returns the time to the next timer execution*/
         usleep(idle_time * 1000);
@@ -111,22 +112,26 @@ static void configure_simulator(int argc, char **argv)
 
     /* Default values */
     fullscreen = maximize = false;
-    window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ? : "800");
-    window_height = atoi(getenv("LV_SIM_WINDOW_HEIGHT") ? : "480");
+    window_width = atoi(getenv("LV_SIM_WINDOW_WIDTH") ?: "800");
+    window_height = atoi(getenv("LV_SIM_WINDOW_HEIGHT") ?: "480");
 
     /* Parse the command-line options. */
-    while ((opt = getopt (argc, argv, "fmw:h:")) != -1) {
-        switch (opt) {
+    while ((opt = getopt(argc, argv, "fmw:h:")) != -1)
+    {
+        switch (opt)
+        {
         case 'f':
             fullscreen = true;
-            if (LV_USE_WAYLAND == 0) {
+            if (LV_USE_WAYLAND == 0)
+            {
                 fprintf(stderr, "The SDL driver doesn't support fullscreen mode on start\n");
                 exit(1);
             }
             break;
         case 'm':
             maximize = true;
-            if (LV_USE_WAYLAND == 0) {
+            if (LV_USE_WAYLAND == 0)
+            {
                 fprintf(stderr, "The SDL driver doesn't support maximized mode on start\n");
                 exit(1);
             }
@@ -138,10 +143,10 @@ static void configure_simulator(int argc, char **argv)
             window_height = atoi(optarg);
             break;
         case ':':
-            fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+            fprintf(stderr, "Option -%c requires an argument.\n", optopt);
             exit(1);
         case '?':
-            fprintf (stderr, "Unknown option -%c.\n", optopt);
+            fprintf(stderr, "Unknown option -%c.\n", optopt);
             exit(1);
         }
     }
