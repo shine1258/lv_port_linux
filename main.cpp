@@ -154,7 +154,6 @@ static void configure_simulator(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-
     configure_simulator(argc, argv);
 
     /* Initialize LVGL. */
@@ -165,7 +164,10 @@ int main(int argc, char **argv)
 
     /*Create a Demo*/
     lv_demo_widgets();
-    // lv_demo_widgets_start_slideshow();
+    // lv_demo_widgets_start_slideshow();    
+
+    // auto spinner = lv_spinner_create(lv_screen_active());
+    // lv_obj_set_align(spinner, LV_ALIGN_CENTER);
 
     lv_linux_run_loop();
 
