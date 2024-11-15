@@ -30,22 +30,22 @@ static void lv_linux_init_input_pointer(lv_display_t *disp)
      * Use 'evtest' to find the correct input device. /dev/input/by-id/ is recommended if possible
      * Use /dev/input/by-id/my-mouse-or-touchscreen or /dev/input/eventX
      */
-    const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
+    // const char *input_device = getenv("LV_LINUX_EVDEV_POINTER_DEVICE");
 
-    if (input_device == NULL)
-    {
-        fprintf(stderr, "please set the LV_LINUX_EVDEV_POINTER_DEVICE environment variable\n");
-        exit(1);
-    }
+    // if (input_device == NULL)
+    // {
+    //     fprintf(stderr, "please set the LV_LINUX_EVDEV_POINTER_DEVICE environment variable\n");
+    //     exit(1);
+    // }
 
-    lv_indev_t *touch = lv_evdev_create(LV_INDEV_TYPE_POINTER, input_device);
+    lv_indev_t *touch = lv_evdev_create(LV_INDEV_TYPE_POINTER, "/dev/input/event1");
     lv_indev_set_display(touch, disp);
 
     /* Set the cursor icon */
-    LV_IMAGE_DECLARE(mouse_cursor_icon);
-    lv_obj_t *cursor_obj = lv_image_create(lv_screen_active());
-    lv_image_set_src(cursor_obj, &mouse_cursor_icon);
-    lv_indev_set_cursor(touch, cursor_obj);
+    // LV_IMAGE_DECLARE(mouse_cursor_icon);
+    // lv_obj_t *cursor_obj = lv_image_create(lv_screen_active());
+    // lv_image_set_src(cursor_obj, &mouse_cursor_icon);
+    // lv_indev_set_cursor(touch, cursor_obj);
 }
 #endif
 
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
 
     /*Create a Demo*/
     lv_demo_widgets();
-    lv_demo_widgets_start_slideshow();
+    // lv_demo_widgets_start_slideshow();
 
     lv_linux_run_loop();
 
